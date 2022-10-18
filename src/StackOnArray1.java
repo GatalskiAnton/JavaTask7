@@ -1,8 +1,8 @@
 import java.util.EmptyStackException;
 
-public class StackOnArray<T> {
+public class StackOnArray1<T> {
 
-    StackOnArray()
+    StackOnArray1()
     {
         size = 0;
         stack = new Object[0];
@@ -11,10 +11,7 @@ public class StackOnArray<T> {
     public void push(T data)
     {
         Object[] tempStack = new Object[++size];
-        for (int i = 0; i < stack.length; ++i)
-        {
-            tempStack[i] = stack[i];
-        }
+        System.arraycopy(stack,0,tempStack,0,stack.length);
         tempStack[size - 1] = data;
         stack = tempStack;
     }
@@ -26,10 +23,7 @@ public class StackOnArray<T> {
 
         T result = (T) stack[--size];
         Object[] tempStack = new Object[size];
-        for (int i = 0; i < stack.length - 1; ++i)
-        {
-            tempStack[i] = stack[i];
-        }
+        System.arraycopy(stack,0,tempStack,0,stack.length - 1);
         stack = tempStack;
         return result;
     }
