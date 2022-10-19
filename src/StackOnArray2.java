@@ -3,15 +3,16 @@ import java.util.EmptyStackException;
 public class StackOnArray2<T> {
 
     public StackOnArray2() {
-        stack = (T[]) new Object[size];
+        capacity = 0;
+        stack = (T[]) new Object[0];
     }
 
     public void push(T data)
     {
-        T[] tempStack = (T[]) new Object[++size];
-        System.arraycopy(stack,0,tempStack,0,stack.length);
-        tempStack[size - 1] = data;
-        stack = tempStack;
+        if (stack.length <= capacity) {
+            increaseSize();
+        }
+        stack[capacity++] = data;
     }
 
     public T pop()
@@ -19,16 +20,21 @@ public class StackOnArray2<T> {
         if (isEmpty())
             throw new EmptyStackException();
 
-        T result = stack[--size];
-        T[] tempStack = (T[]) new Object[size];
-        System.arraycopy(stack,0,tempStack,0,stack.length - 1);
-        stack = tempStack;
+        T result = stack[--capacity];
+        stack[capacity] = null;
         return result;
     }
     public boolean isEmpty()
     {
-        return size == 0;
+        return capacity == 0;
+    }
+
+    private void increaseSize()
+    {
+        Object[] tempStack = new Object[capacity + 5];
+        System.arraycopy(stack, 0, tempStack, 0, stack.length);
+        stack = (T[])tempStack;
     }
     private T[] stack;
-    private int size;
+    private int capacity;
 }
